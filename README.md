@@ -1,4 +1,4 @@
-# 🌿 CNC DAO - MVP
+# 🌿 CNC DAO - MVP <p align="center"><img src="https://raw.githubusercontent.com/cncdaodas-gif/CNC-DAO/b30910a2ff086a02934967edaa4256d70671cce2/assets/logo.jpg" width="200" height="200" />
 ### BUILD • EDUCATE • PRESERVE NATURE
 
 **CNC DAO** is a purpose-driven organization focused on leveraging community power and blockchain technology to protect the environment. This project is a **Solana-based Web Application** that enables a transparent, human-verified pipeline for tree planting activities.
