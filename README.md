@@ -1,160 +1,102 @@
-# CNC DAO — Carbon Nature Chain
+# 🌿 CNC DAO - MVP
+### BUILD • EDUCATE • PRESERVE NATURE
 
-Environmental NFT Marketplace on Solana. Verify, mint, and trade carbon credit and nature-based NFT assets, powered by community validators.
+**CNC DAO** is a purpose-driven organization focused on leveraging community power and blockchain technology to protect the environment. This project is a **Solana-based Web Application** that enables a transparent, human-verified pipeline for tree planting activities.
 
-## Tech Stack
+---
 
-- **Framework**: Next.js 14 (App Router)
-- **Styling**: Tailwind CSS
-- **Auth**: Privy (email + Solana wallet + Google)
-- **Blockchain**: Solana
-- **Validation**: Zod
-- **Session**: JWT in httpOnly cookies (jose)
+## 📌 Project Overview
+The CNC DAO MVP provides a simplified, functional platform to prove that real-world environmental action can be verified, tracked, and tokenized on-chain.
 
-## Brand Colors
+**The 4 Non-Negotiables:**
+1. **Tree Registry:** Anchoring data on the Solana blockchain.
+2. **Tree NFT Minting:** 1 Verified Tree = 1 Digital Identity.
+3. **Simple Verification:** The "Nature Heroes" human-validation system.
+4. **Public Dashboard:** Global map visualization of planting activities.
 
-| Name   | Hex       |
-|--------|-----------|
-| Yellow | `#FEC107` |
-| Black  | `#000000` |
-| White  | `#FFFFFF` |
+---
 
-## Project Structure
+## 🚀 Key Features
 
-```
-cncdao/
-├── app/
-│   ├── page.tsx                  ← Landing page
-│   ├── layout.tsx                ← Root layout + fonts
-│   ├── globals.css
-│   ├── middleware.ts             ← Edge auth guard
-│   ├── marketplace/page.tsx      ← Browse all NFTs
-│   ├── validators/
-│   │   ├── page.tsx              ← Validator portal
-│   │   └── apply/page.tsx        ← KYC application
-│   ├── dashboard/page.tsx        ← Protected user dashboard
-│   └── api/
-│       ├── auth/route.ts         ← Login / logout
-│       ├── kyc/route.ts          ← KYC application
-│       ├── validators/
-│       │   └── action/route.ts   ← Approve / reject campaigns
-│       └── nft/route.ts          ← NFT listings
-├── components/
-│   ├── layout/
-│   │   ├── Navbar.tsx
-│   │   ├── Footer.tsx
-│   │   └── Providers.tsx         ← Privy provider
-│   └── ui/
-│       ├── HeroSection.tsx
-│       ├── StatsBar.tsx
-│       ├── FeaturedNFTs.tsx
-│       ├── HowItWorks.tsx
-│       ├── ValidatorCTA.tsx
-│       ├── TrustBar.tsx
-│       ├── MarketplaceGrid.tsx
-│       ├── ValidatorPortal.tsx
-│       ├── KYCForm.tsx
-│       └── UserDashboard.tsx
-└── lib/
-    ├── auth.ts                   ← JWT sign/verify, session helpers
-    ├── rate-limit.ts             ← In-memory rate limiter
-    ├── validate.ts               ← Zod schemas
-    └── api.ts                    ← Consistent response helpers
-```
+### 1. Tree Data Collection
+Users can submit planting data with minimal friction.
+* **Automated Data:** Precise GPS (Latitude/Longitude) and Timestamps are captured via device sensors.
+* **Manual Input:** Tree Name, Height, and "Clean Picture" upload.
+* **Project Types:** Supports Single Project or Combined Project submissions.
 
-## Getting Started
+### 2. "Nature Heroes" Validation Logic
+A robust consensus system to prevent fake data:
+* **Human-in-the-Loop:** Requires a manual verification layer.
+* **Consensus Rule:** Minimum of **2 independent validators** (Nature Heroes) must approve a submission.
+* **Verification Flag:** Only once `verified = true` is set on-chain can the NFT be minted.
 
-### 1. Clone & install
+### 3. Solana NFT Integration
+* **Digital Identity:** Each surviving tree is represented by an NFT.
+* **Storage:** Metadata and images are stored using **IPFS** (Content Identification - CID).
+* **Connection:** NFTs are linked to the Registry **PDA** (Program Derived Address).
 
-```bash
-git clone https://github.com/your-org/cncdao.git
-cd cncdao
-npm install
-```
+### 4. Global Impact Map
+* **Visualization:** Integration with a Map API to show tree locations and project distribution globally.
+* **Transparency:** Real-time updates on activity density and verification status.
 
-### 2. Environment variables
+---
 
-```bash
-cp .env.example .env.local
+## 🛠 Technical Stack
+* **Blockchain:** Solana (Anchor Framework)
+* **Frontend:** Web Application (React/Next.js)
+* **Storage:** IPFS (via Pinata or Web3.Storage)
+* **Verification:** Manual Validator Portal + Sentinel Satellite API integration
+* **Wallet:** Solana Wallet Standard (Phantom, Solflare, etc.)
+
+---
+
+## 📂 System Flow
+1. **Register:** User uploads tree data (Photos + GPS). Data enters "Pending" state.
+2. **Verify:** Two "Nature Heroes" review the submission. Satellite data (Sentinel) is referenced for accuracy.
+3. **Anchor:** Upon 2nd approval, data is finalized on the Solana blockchain.
+4. **Mint:** User receives the option to mint a unique Tree NFT.
+5. **View:** The tree becomes a permanent pin on the Global Map.
+
+---
+
+## 💻 Development & Smart Contract Logic
+The Solana Program utilizes **PDAs** to track consensus.
+
+```rust
+// Logic Summary
+- TreeAccount: Stores metadata & validation_count.
+- Validate Instruction: 
+    - Checks if validator is whitelisted.
+    - Ensures validator hasn't voted twice.
+    - If count == 2, sets is_verified = true.
 ```
 
-Fill in `.env.local`:
+---
 
-```env
-# Privy — get from https://privy.io (free tier available)
-NEXT_PUBLIC_PRIVY_APP_ID=your_privy_app_id
-PRIVY_APP_SECRET=your_privy_app_secret
+## 🚧 MVP Scope Control
+**Included:**
+* Proof of real-world tree → Validated → Recorded → Visualized → Tokenized.
 
-# JWT secret — generate with:  openssl rand -base64 32
-JWT_SECRET=your_jwt_secret_here
+**Excluded (Future Phases):**
+* Complex tokenomics & Staking.
+* DAO Governance/Voting.
+* Automated AI Image Recognition.
 
-# Solana
-NEXT_PUBLIC_SOLANA_NETWORK=devnet
-NEXT_PUBLIC_SOLANA_RPC_URL=https://api.devnet.solana.com
+---
 
-# App
-NEXT_PUBLIC_APP_URL=http://localhost:3000
-```
+## 🤝 Contributing
+1. **Fork** the repository.
+2. Create a **Feature Branch** (`git checkout -b feature/AmazingFeature`).
+3. **Commit** your changes (`git commit -m 'Add some AmazingFeature'`).
+4. **Push** to the branch (`git push origin feature/AmazingFeature`).
+5. Open a **Pull Request**.
 
-### 3. Privy Setup
+---
 
-1. Go to [privy.io](https://privy.io) → Create app → copy App ID and Secret
-2. In Privy dashboard → Appearance: set accent color to `#FEC107`
-3. In Privy dashboard → Login methods: enable Email, Wallets, Google
-4. In Privy dashboard → Wallets → Solana: enable Phantom, Solflare, Backpack
+## ⚠️ Key Risks & Mitigations
+* **Fake Data:** Controlled via 2-factor human validation.
+* **UX Adoption:** Minimalist UI/UX focusing on "Register → Mint" with zero blockchain jargon.
+* **On-Chain Cost:** Optimized via Solana's high-speed, low-fee architecture.
 
-### 4. Run
-
-```bash
-npm run dev
-# → http://localhost:3000
-```
-
-## Security Checklist ✅
-
-- [x] JWT tokens in `httpOnly` cookies — never localStorage
-- [x] Tokens expire (7 days), logout invalidates session
-- [x] Every protected route server-side auth check (`middleware.ts` + page-level)
-- [x] User cannot access other users' data (scoped by `session.userId`)
-- [x] All inputs validated with Zod before processing
-- [x] No raw user input hits DB or logic
-- [x] API responses never expose internals or stack traces
-- [x] Consistent `{ success, data/error }` response format
-- [x] No API keys in frontend (`PRIVY_APP_SECRET` never exposed)
-- [x] No secrets in repo (`.env` in `.gitignore`)
-- [x] CORS not set to `*`
-- [x] Rate limiting on all auth + submission endpoints
-- [x] Security headers: CSP, HSTS, X-Frame-Options, X-Content-Type-Options
-- [x] No default passwords or test credentials
-
-## Adding a Database
-
-The app is wired for any database. Recommended: **Supabase** (free tier, Postgres).
-
-```bash
-npm install @supabase/supabase-js
-```
-
-Then replace the `// TODO: Save to database` comments in `app/api/kyc/route.ts` and `app/api/validators/action/route.ts` with your Supabase queries.
-
-## Validator Role Flow
-
-1. User submits KYC via `/validators/apply`
-2. Admin reviews → updates user role to `validator` in DB
-3. Next time user logs in, session token includes `role: 'validator'`
-4. Validator can now access `/validators` portal and take actions
-
-## Deployment
-
-```bash
-# Vercel (recommended)
-npx vercel
-
-# Or build locally
-npm run build
-npm start
-```
-
-Set all environment variables in Vercel dashboard → Settings → Environment Variables.
-
-> ⚠️ For production: replace the in-memory rate limiter (`lib/rate-limit.ts`) with Redis (Upstash free tier recommended).
+---
+*Created with ❤️ by the CNC DAO Community.*
