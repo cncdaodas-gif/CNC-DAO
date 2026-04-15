@@ -50,7 +50,7 @@ A robust consensus system to prevent fake data:
 * **Verification:** Manual Validator Portal + Sentinel Satellite API integration
 * **Wallet:** Solana Wallet Standard (Phantom, Solflare, etc.)
 
----
+--
 
 ## 📂 System Flow
 1. **Register:** User uploads tree data (Photos + GPS). Data enters "Pending" state.
