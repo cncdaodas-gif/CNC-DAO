@@ -6,12 +6,15 @@ import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import {
   PhantomWalletAdapter,
   SolflareWalletAdapter,
-  TorusWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
 import { clusterApiUrl } from "@solana/web3.js";
 
-// Import default styles for the wallet modal
-import "@solana/wallet-adapter-react-ui/styles.css";
+require("@solana/wallet-adapter-react-ui/styles.css");
+
+// Type cast fixes React 18 JSX incompatibility with older wallet adapter types
+const Connection = ConnectionProvider as any;
+const Wallet = WalletProvider as any;
+const WalletModal = WalletModalProvider as any;
 
 export default function WalletContextProvider({ children }: { children: React.ReactNode }) {
   const network = WalletAdapterNetwork.Mainnet;
@@ -21,18 +24,17 @@ export default function WalletContextProvider({ children }: { children: React.Re
     () => [
       new PhantomWalletAdapter(),
       new SolflareWalletAdapter(),
-      new TorusWalletAdapter(),
     ],
-    [network]
+    []
   );
 
   return (
-    <ConnectionProvider endpoint={endpoint}>
-      <WalletProvider wallets={wallets} autoConnect>
-        <WalletModalProvider>
+    <Connection endpoint={endpoint}>
+      <Wallet wallets={wallets} autoConnect={false}>
+        <WalletModal>
           {children}
-        </WalletModalProvider>
-      </WalletProvider>
-    </ConnectionProvider>
+        </WalletModal>
+      </Wallet>
+    </Connection>
   );
 }
