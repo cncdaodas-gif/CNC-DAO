@@ -7,7 +7,16 @@ const config: Config = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        gold: '#FFD700',
+        surface: '#0a0a0a',
+      },
+      fontFamily: {
+        display: ['"Bebas Neue"', 'sans-serif'],
+        sans: ['Syne', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 }
