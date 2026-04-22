@@ -2,6 +2,7 @@ import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import KYC from '@/components/KYC';
 import ImpactMap from '@/components/ImpactMap';
+import TreeSubmissionForm from '@/components/TreeSubmissionForm';
 import Link from 'next/link';
 
 export default function Home() {
@@ -11,6 +12,7 @@ export default function Home() {
       <Hero />
       <KYC />
       <ImpactMap />
+      <TreeSubmissionForm />
 
       {/* Ecosystem Section */}
       <section id="ecosystem" className="py-24 bg-black border-t border-white/5 overflow-hidden">
@@ -19,14 +21,13 @@ export default function Home() {
           <h2 className="font-display text-5xl md:text-7xl lg:text-8xl text-white leading-none mb-16">
             THE<br /><span className="text-gold gold-text-glow">ECOSYSTEM</span>
           </h2>
-
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-3">
             {[
               { num: '01', title: 'Tree Registry', desc: 'Every planted tree anchored permanently on the Solana blockchain with GPS + timestamp.' },
               { num: '02', title: 'NFT Identity', desc: '1 Verified Tree = 1 Digital Identity. Each surviving tree minted as a unique NFT.' },
               { num: '03', title: 'Nature Heroes', desc: 'Human-in-the-loop validation. Minimum 2 independent validators must approve each submission.' },
               { num: '04', title: 'Impact Map', desc: 'Global map visualisation of all planting activity, verification status, and project density.' },
-            ].map((item, i) => (
+            ].map((item) => (
               <div key={item.num} className="group bg-[#0d0d0d] border border-white/8 rounded-2xl p-7 hover:border-gold/25 transition-colors">
                 <div className="font-display text-5xl text-gold/10 group-hover:text-gold/20 transition-colors mb-6">{item.num}</div>
                 <h3 className="font-black text-white uppercase tracking-tight text-sm mb-3">{item.title}</h3>
