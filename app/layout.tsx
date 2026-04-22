@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import WalletContextProvider from '@/components/WalletContextProvider';
 
 export const metadata: Metadata = {
   title: 'CNC DAO — Decentralized Regeneration',
@@ -14,7 +15,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
       </head>
-      <body>{children}</body>
+      <body>
+        <WalletContextProvider>
+          {children}
+        </WalletContextProvider>
+      </body>
     </html>
   );
 }
