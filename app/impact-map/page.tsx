@@ -1,7 +1,7 @@
 "use client";
 import Navbar from '@/components/Navbar';
 import { motion } from 'framer-motion';
-import { Globe, Zap, TreePine, CheckCircle, Award } from 'lucide-react';
+import { Globe, TreePine, CheckCircle, Award } from 'lucide-react';
 import Link from 'next/link';
 
 const projects = [
@@ -43,7 +43,6 @@ export default function ImpactMapPage() {
     <main className="min-h-screen bg-black">
       <Navbar />
 
-      {/* Header */}
       <section className="pt-40 pb-10 px-6 max-w-7xl mx-auto">
         <div className="text-gold text-[9px] font-black uppercase tracking-[0.35em] mb-5">Live Oracle Data</div>
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12">
@@ -54,13 +53,10 @@ export default function ImpactMapPage() {
           </h1>
           <div className="flex items-center gap-3 lg:pb-4">
             <div className="w-2 h-2 rounded-full bg-gold animate-pulse" />
-            <p className="text-white/30 text-[10px] font-black uppercase tracking-[0.3em]">
-              Live · Updated every 30s
-            </p>
+            <p className="text-white/30 text-[10px] font-black uppercase tracking-[0.3em]">Live · Updated every 30s</p>
           </div>
         </div>
 
-        {/* Stats row */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
           {stats.map((s) => (
             <motion.div
@@ -78,7 +74,6 @@ export default function ImpactMapPage() {
         </div>
       </section>
 
-      {/* Full-width map */}
       <section className="px-6 max-w-7xl mx-auto mb-8">
         <motion.div
           initial={{ opacity: 0, scale: 0.98 }}
@@ -86,37 +81,25 @@ export default function ImpactMapPage() {
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           className="relative w-full h-[520px] md:h-[620px] bg-[#060606] rounded-[2rem] border border-white/5 overflow-hidden gold-glow"
         >
-          {/* Dot grid */}
           <div className="absolute inset-0 opacity-[0.08]"
             style={{ backgroundImage: 'radial-gradient(#FFD700 0.6px, transparent 0.6px)', backgroundSize: '30px 30px' }}
           />
-          {/* Scan lines */}
           <div className="absolute inset-0 opacity-[0.02]"
             style={{ backgroundImage: 'repeating-linear-gradient(0deg, #FFD700, #FFD700 1px, transparent 1px, transparent 36px)' }}
           />
-
-          {/* Atmospheric glow */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-gold/5 blur-[120px] rounded-full" />
-
-          {/* Corner label */}
           <div className="absolute top-6 left-6 flex items-center gap-2">
             <Globe size={16} className="text-gold/30" />
             <span className="text-white/20 text-[9px] font-black uppercase tracking-widest">Earth · 2026</span>
           </div>
-
-          {/* Pings */}
           {projects.map((p, i) => (
             <Ping key={p.region} top={p.top} left={p.left} name={p.region} count={p.trees} delay={i * 0.3} />
           ))}
-
-          {/* Scanning line */}
           <motion.div
             className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/25 to-transparent"
             animate={{ top: ['5%', '95%', '5%'] }}
             transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
           />
-
-          {/* Bottom right stat */}
           <div className="absolute bottom-6 right-6 bg-black/80 backdrop-blur-md px-6 py-4 border border-white/10 rounded-2xl">
             <div className="flex items-center gap-2 mb-1">
               <div className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
@@ -128,7 +111,6 @@ export default function ImpactMapPage() {
         </motion.div>
       </section>
 
-      {/* Projects table */}
       <section className="px-6 max-w-7xl mx-auto pb-24">
         <div className="text-white/20 text-[9px] font-black uppercase tracking-[0.3em] mb-5">Active Projects</div>
         <div className="space-y-2">
@@ -138,7 +120,7 @@ export default function ImpactMapPage() {
               initial={{ opacity: 0, x: -16 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
-              className="flex flex-wrap items-center justify-between gap-4 bg-[#0d0d0d] border border-white/8 rounded-2xl px-7 py-5 hover:border-gold/20 transition-colors group"
+              className="flex flex-wrap items-center justify-between gap-4 bg-[#0d0d0d] border border-white/8 rounded-2xl px-7 py-5 hover:border-gold/20 transition-colors"
             >
               <div className="flex items-center gap-4">
                 <div className="w-2 h-2 rounded-full bg-gold animate-pulse" />
