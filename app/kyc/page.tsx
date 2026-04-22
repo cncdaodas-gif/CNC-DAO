@@ -3,8 +3,7 @@ import Link from 'next/link';
 import { ShieldCheck, Fingerprint, Lock, CheckCircle } from 'lucide-react';
 
 export const metadata = {
-  title: 'KYC Verification — CNC DAO',
-  description: 'Complete identity verification to become a Nature Hero and earn CNC rewards.',
+  title: 'KYC Verification',
 };
 
 const steps = [
@@ -13,28 +12,24 @@ const steps = [
     title: 'Connect Wallet',
     desc: 'Link your Solana wallet (Phantom, Solflare, etc.) to begin the verification process.',
     icon: ShieldCheck,
-    done: false,
   },
   {
     num: '02',
     title: 'Biometric Scan',
     desc: 'Complete a quick liveness check powered by Worldcoin or zkPass to prove you are a real human.',
     icon: Fingerprint,
-    done: false,
   },
   {
     num: '03',
     title: 'ZK-Proof Generated',
     desc: 'A zero-knowledge proof is generated and anchored on-chain — your identity stays private.',
     icon: Lock,
-    done: false,
   },
   {
     num: '04',
     title: 'Verified Nature Hero',
     desc: 'You are now a verified Nature Hero. Start validating tree submissions and earning CNC tokens.',
     icon: CheckCircle,
-    done: false,
   },
 ];
 
@@ -52,7 +47,6 @@ export default function KYCPage() {
     <main className="min-h-screen bg-black">
       <Navbar />
 
-      {/* Hero */}
       <section className="pt-40 pb-20 px-6 max-w-7xl mx-auto">
         <div className="text-gold text-[9px] font-black uppercase tracking-[0.35em] mb-5">Identity Verification</div>
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-20">
@@ -66,9 +60,8 @@ export default function KYCPage() {
           </p>
         </div>
 
-        {/* Steps */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-3 mb-16">
-          {steps.map((step, i) => (
+          {steps.map((step) => (
             <div
               key={step.num}
               className="group relative bg-[#0d0d0d] border border-white/8 rounded-2xl p-7 hover:border-gold/30 transition-colors overflow-hidden"
@@ -85,9 +78,7 @@ export default function KYCPage() {
           ))}
         </div>
 
-        {/* Main CTA card */}
         <div className="grid lg:grid-cols-2 gap-3">
-          {/* Left — CTA */}
           <div className="bg-gold rounded-2xl p-10 flex flex-col justify-between min-h-[320px]">
             <div>
               <div className="text-black/50 text-[9px] font-black uppercase tracking-[0.3em] mb-4">Get Started</div>
@@ -108,7 +99,6 @@ export default function KYCPage() {
             </button>
           </div>
 
-          {/* Right — Benefits */}
           <div className="bg-[#0d0d0d] border border-white/8 rounded-2xl p-10">
             <div className="text-gold text-[9px] font-black uppercase tracking-[0.3em] mb-6">Nature Hero Benefits</div>
             <ul className="space-y-4">
@@ -127,7 +117,6 @@ export default function KYCPage() {
         </div>
       </section>
 
-      {/* Powered by */}
       <section className="py-12 border-t border-white/5">
         <div className="max-w-7xl mx-auto px-6 flex flex-wrap items-center justify-between gap-4">
           <p className="text-white/20 text-[9px] font-black uppercase tracking-[0.3em]">Identity powered by</p>
