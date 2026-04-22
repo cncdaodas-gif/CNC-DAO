@@ -30,9 +30,8 @@ export default function KYC() {
   const inView = useInView(ref, { once: true, margin: '-80px' });
 
   return (
-    <section id="mission" className="py-24 bg-black border-t border-white/5 bg-noise relative overflow-hidden">
-      {/* Subtle gold grid background */}
-      <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(#FFD700 0.5px, transparent 0.5px)', backgroundSize: '28px 28px' }} />
+    <section id="mission" className="py-24 border-t relative overflow-hidden" style={{ background: 'var(--bg)', borderColor: 'var(--border-faint)' }}>
+      <div className="absolute inset-0 opacity-[0.025]" style={{ backgroundImage: 'radial-gradient(#FFD700 0.5px, transparent 0.5px)', backgroundSize: '28px 28px' }} />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
 
@@ -45,19 +44,22 @@ export default function KYC() {
           className="mb-16"
         >
           <div className="text-gold text-[9px] font-black uppercase tracking-[0.35em] mb-4">Verification Layer</div>
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-            <h2 className="font-display text-5xl md:text-7xl lg:text-8xl text-white leading-none">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
+            <h2 className="font-display text-5xl md:text-7xl lg:text-8xl leading-none" style={{ color: 'var(--text-primary)' }}>
               SYBIL<br />
               <span className="text-gold gold-text-glow">RESISTANT</span><br />
               IMPACT.
             </h2>
-            <p className="text-white/40 text-sm max-w-xs leading-relaxed md:text-right">
-              Our KYC layer prevents bot farming and maintains the integrity of the carbon-credit ecosystem. Every reward goes to a real person planting a real tree.
-            </p>
+            <div className="max-w-sm md:text-right">
+              {/* BOLD paragraph as requested */}
+              <p className="text-sm leading-relaxed font-bold mb-2" style={{ color: 'var(--text-dim)' }}>
+                Our KYC layer prevents bot farming and maintains the integrity of the carbon-credit ecosystem. Every reward goes to a real person planting a real tree.
+              </p>
+            </div>
           </div>
         </motion.div>
 
-        {/* Cards grid */}
+        {/* Cards */}
         <div ref={ref} className="grid md:grid-cols-3 gap-3">
           {features.map((f, i) => (
             <motion.div
@@ -65,21 +67,17 @@ export default function KYC() {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={inView ? { opacity: 1, scale: 1, y: 0 } : {}}
               transition={{ duration: 0.7, delay: i * 0.15, ease: [0.22, 1, 0.36, 1] }}
-              className="group relative bg-[#0d0d0d] border border-white/8 rounded-2xl p-7 hover:border-gold/30 transition-colors overflow-hidden"
+              className="group relative rounded-2xl p-7 overflow-hidden transition-all"
+              style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}
             >
-              {/* Card number */}
-              <div className="absolute top-5 right-6 font-display text-5xl text-white/5 group-hover:text-gold/10 transition-colors">
+              <div className="absolute top-5 right-6 font-display text-5xl transition-colors" style={{ color: 'var(--border)' }}>
                 {f.num}
               </div>
-
-              {/* Icon */}
-              <div className="w-10 h-10 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center text-gold mb-5 group-hover:bg-gold/15 transition-colors">
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center text-gold mb-5" style={{ background: 'rgba(255,215,0,0.08)', border: '1px solid rgba(255,215,0,0.2)' }}>
                 <f.icon size={18} />
               </div>
-
-              <h3 className="font-black text-white uppercase tracking-tight text-sm mb-2">{f.title}</h3>
-              <p className="text-white/35 text-xs leading-relaxed">{f.desc}</p>
-
+              <h3 className="font-black uppercase tracking-tight text-sm mb-2" style={{ color: 'var(--text-primary)' }}>{f.title}</h3>
+              <p className="text-xs leading-relaxed" style={{ color: 'var(--text-faint)' }}>{f.desc}</p>
               <div className="mt-6 flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-gold/50 group-hover:text-gold transition-colors">
                 Learn more
                 <ArrowRight size={10} className="-rotate-45 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -94,9 +92,9 @@ export default function KYC() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.5 }}
-          className="mt-10 flex items-center justify-between"
+          className="mt-10 flex items-center justify-between flex-wrap gap-4"
         >
-          <p className="text-white/20 text-[10px] font-bold uppercase tracking-[0.3em]">
+          <p className="text-[10px] font-bold uppercase tracking-[0.3em]" style={{ color: 'var(--text-ghost)' }}>
             Powered by Worldcoin · zkPass · Solana
           </p>
           <Link
