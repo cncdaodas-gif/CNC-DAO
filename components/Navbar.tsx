@@ -16,38 +16,30 @@ export default function Navbar() {
   const { setVisible } = useWalletModal();
 
   const handleWalletClick = () => {
-    if (connected) {
-      disconnect();
-    } else {
-      setVisible(true);
-    }
+    if (connected) disconnect();
+    else setVisible(true);
   };
 
   return (
     <>
-      {/* Desktop: pill hanging from top center */}
       <header className="fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none">
-        <nav className="pointer-events-auto bg-black rounded-b-3xl px-8 py-3 flex items-center gap-12 border-x border-b border-white/10 backdrop-blur-xl">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 mr-4">
+        <nav className="pointer-events-auto bg-black rounded-b-3xl px-6 py-3 flex items-center gap-8 border-x border-b border-white/10 backdrop-blur-xl">
+          <Link href="/" className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-full overflow-hidden border border-gold/40">
               <img src={LOGO_RAW} alt="CNC DAO" className="w-full h-full object-cover" />
             </div>
             <span className="font-display text-white text-lg tracking-wider">CNC DAO</span>
           </Link>
 
-          {/* Nav links */}
-          <div className="hidden md:flex items-center gap-10">
+          <div className="hidden md:flex items-center gap-8">
             {[
               { label: 'Mission', href: '/#mission' },
-              { label: 'Ecosystem', href: '/#ecosystem' },
               { label: 'Impact', href: '/impact-map' },
-              { label: 'Governance', href: '/#governance' },
+              { label: 'Submit Tree', href: '/#submit' },
               { label: 'KYC', href: '/kyc' },
+              { label: 'Governance', href: '/#governance' },
             ].map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
+              <Link key={item.label} href={item.href}
                 className="text-[10px] font-bold uppercase tracking-[0.2em] transition-colors"
                 style={{ color: 'rgba(255,255,255,0.55)' }}
                 onMouseEnter={e => (e.currentTarget.style.color = '#FFD700')}
@@ -58,22 +50,16 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Wallet CTA */}
-          <button
-            onClick={handleWalletClick}
+          <button onClick={handleWalletClick}
             className="hidden md:flex items-center gap-2 bg-gold text-black pl-5 pr-2 py-2 rounded-full text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-all group"
           >
-            {connected && publicKey
-              ? shortAddress(publicKey.toBase58())
-              : 'Connect Wallet'}
+            {connected && publicKey ? shortAddress(publicKey.toBase58()) : 'Connect Wallet'}
             <span className="bg-black rounded-full w-8 h-8 flex items-center justify-center group-hover:scale-110 transition-transform">
               {connected ? (
-                // Disconnect icon
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                   <path d="M3 3l6 6M9 3l-6 6" stroke="#FFD700" strokeWidth="1.5" strokeLinecap="round"/>
                 </svg>
               ) : (
-                // Arrow icon
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                   <path d="M2 7h10M7 2l5 5-5 5" stroke="#FFD700" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
@@ -81,11 +67,7 @@ export default function Navbar() {
             </span>
           </button>
 
-          {/* Mobile hamburger */}
-          <button
-            className="md:hidden text-white/60 hover:text-gold transition-colors"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
+          <button className="md:hidden text-white/60 hover:text-gold transition-colors" onClick={() => setMenuOpen(!menuOpen)}>
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
               {menuOpen ? (
                 <path d="M4 4l12 12M16 4L4 16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
@@ -97,29 +79,22 @@ export default function Navbar() {
         </nav>
       </header>
 
-      {/* Mobile menu */}
       {menuOpen && (
         <div className="fixed inset-0 z-40 bg-black/95 backdrop-blur-xl flex flex-col items-center justify-center gap-8 md:hidden">
           {[
             { label: 'Mission', href: '/#mission' },
-            { label: 'Ecosystem', href: '/#ecosystem' },
             { label: 'Impact Map', href: '/impact-map' },
-            { label: 'Governance', href: '/#governance' },
+            { label: 'Submit Tree', href: '/#submit' },
             { label: 'KYC Verify', href: '/kyc' },
+            { label: 'Governance', href: '/#governance' },
           ].map((item) => (
-            <Link
-              key={item.label}
-              href={item.href}
-              onClick={() => setMenuOpen(false)}
-              className="font-display text-4xl text-white/70 hover:text-gold transition-colors tracking-widest"
-            >
+            <Link key={item.label} href={item.href} onClick={() => setMenuOpen(false)}
+              className="font-display text-4xl text-white/70 hover:text-gold transition-colors tracking-widest">
               {item.label}
             </Link>
           ))}
-          <button
-            onClick={() => { handleWalletClick(); setMenuOpen(false); }}
-            className="mt-4 bg-gold text-black px-10 py-4 rounded-full font-black text-xs uppercase tracking-widest"
-          >
+          <button onClick={() => { handleWalletClick(); setMenuOpen(false); }}
+            className="mt-4 bg-gold text-black px-10 py-4 rounded-full font-black text-xs uppercase tracking-widest">
             {connected && publicKey ? shortAddress(publicKey.toBase58()) : 'Connect Wallet'}
           </button>
         </div>
