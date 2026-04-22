@@ -1,11 +1,27 @@
 "use client";
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { useWalletModal } from '@solana/wallet-adapter-react-ui';
 
 const LOGO_RAW = "https://raw.githubusercontent.com/cncdaodas-gif/CNC-DAO/882f885f89c906eed6ee1a28374bd83e2242ac97/assets/logo.jpg";
 
+function shortAddress(address: string) {
+  return `${address.slice(0, 4)}...${address.slice(-4)}`;
+}
+
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { connected, publicKey, disconnect } = useWallet();
+  const { setVisible } = useWalletModal();
+
+  const handleWalletClick = () => {
+    if (connected) {
+      disconnect();
+    } else {
+      setVisible(true);
+    }
+  };
 
   return (
     <>
@@ -42,18 +58,28 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* CTA */}
-          <Link
-            href="/kyc"
+          {/* Wallet CTA */}
+          <button
+            onClick={handleWalletClick}
             className="hidden md:flex items-center gap-2 bg-gold text-black pl-5 pr-2 py-2 rounded-full text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-all group"
           >
-            Connect Wallet
+            {connected && publicKey
+              ? shortAddress(publicKey.toBase58())
+              : 'Connect Wallet'}
             <span className="bg-black rounded-full w-8 h-8 flex items-center justify-center group-hover:scale-110 transition-transform">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M2 7h10M7 2l5 5-5 5" stroke="#FFD700" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+              {connected ? (
+                // Disconnect icon
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path d="M3 3l6 6M9 3l-6 6" stroke="#FFD700" strokeWidth="1.5" strokeLinecap="round"/>
+                </svg>
+              ) : (
+                // Arrow icon
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M2 7h10M7 2l5 5-5 5" stroke="#FFD700" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              )}
             </span>
-          </Link>
+          </button>
 
           {/* Mobile hamburger */}
           <button
@@ -90,13 +116,12 @@ export default function Navbar() {
               {item.label}
             </Link>
           ))}
-          <Link
-            href="/kyc"
-            onClick={() => setMenuOpen(false)}
+          <button
+            onClick={() => { handleWalletClick(); setMenuOpen(false); }}
             className="mt-4 bg-gold text-black px-10 py-4 rounded-full font-black text-xs uppercase tracking-widest"
           >
-            Connect Wallet
-          </Link>
+            {connected && publicKey ? shortAddress(publicKey.toBase58()) : 'Connect Wallet'}
+          </button>
         </div>
       )}
     </>
