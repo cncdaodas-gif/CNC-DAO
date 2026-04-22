@@ -1,16 +1,27 @@
 "use client";
 import { motion, useInView } from 'framer-motion';
 import { Globe, Zap } from 'lucide-react';
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import Link from 'next/link';
 
-const pings = [
-  { top: '28%', left: '22%', name: 'Amazon Project', count: '12.5k', delay: 0 },
-  { top: '48%', left: '52%', name: 'Congo Basin', count: '8.2k', delay: 0.3 },
-  { top: '38%', left: '78%', name: 'Southeast Asia', count: '19.1k', delay: 0.6 },
+// Seed data — real project pings
+const SEED_PINGS = [
+  { id: 'seed-1', top: '28%', left: '22%', name: 'Amazon Project', count: '12.5k', isUser: false },
+  { id: 'seed-2', top: '48%', left: '52%', name: 'Congo Basin', count: '8.2k', isUser: false },
+  { id: 'seed-3', top: '38%', left: '78%', name: 'Southeast Asia', count: '19.1k', isUser: false },
 ];
 
-function Ping({ top, left, name, count, delay }: any) {
+// Convert lat/lng to approximate % position on the map container
+function latLngToPos(lat: number, lng: number) {
+  const top = ((90 - lat) / 180) * 100;
+  const left = ((lng + 180) / 360) * 100;
+  return {
+    top: `${Math.max(5, Math.min(90, top))}%`,
+    left: `${Math.max(5, Math.min(95, left))}%`,
+  };
+}
+
+function Ping({ top, left, name, count, isUser, delay }: any) {
   return (
     <motion.div
       className="absolute"
@@ -21,11 +32,16 @@ function Ping({ top, left, name, count, delay }: any) {
       transition={{ duration: 0.5, delay, ease: [0.22, 1, 0.36, 1] }}
     >
       <div className="relative group cursor-pointer">
-        <div className="absolute inset-0 rounded-full bg-gold opacity-30 animate-ping-slow" />
-        <div className="w-4 h-4 bg-gold rounded-full shadow-[0_0_20px_#FFD700,0_0_40px_rgba(255,215,0,0.3)]" />
-        <div className="absolute top-7 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-black border border-gold/20 px-3 py-2 rounded-xl whitespace-nowrap z-10">
+        <div className={`absolute inset-0 rounded-full opacity-30 animate-ping-slow ${isUser ? 'bg-green-400' : 'bg-gold'}`} />
+        <div className={`w-4 h-4 rounded-full ${isUser
+          ? 'bg-green-400 shadow-[0_0_16px_#4ade80,0_0_32px_rgba(74,222,128,0.3)]'
+          : 'bg-gold shadow-[0_0_20px_#FFD700,0_0_40px_rgba(255,215,0,0.3)]'
+        }`} />
+        <div className="absolute top-7 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-black border border-white/20 px-3 py-2 rounded-xl whitespace-nowrap z-10">
           <p className="text-white font-black text-[10px] uppercase tracking-wider">{name}</p>
-          <p className="text-gold font-black text-[9px]">{count} TREES</p>
+          <p className={`font-black text-[9px] ${isUser ? 'text-green-400' : 'text-gold'}`}>
+            {isUser ? '🌱 Your tree' : `${count} TREES`}
+          </p>
         </div>
       </div>
     </motion.div>
@@ -41,6 +57,24 @@ const stats = [
 export default function ImpactMap() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
+  const [userPings, setUserPings] = useState<any[]>([]);
+
+  // Load submitted trees from localStorage
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('cnc_submitted_trees');
+      if (stored) {
+        const trees = JSON.parse(stored);
+        const pings = trees.map((t: any, i: number) => {
+          const pos = latLngToPos(parseFloat(t.latitude), parseFloat(t.longitude));
+          return { id: `user-${i}`, ...pos, name: t.treeName, count: '', isUser: true };
+        });
+        setUserPings(pings);
+      }
+    } catch (_) {}
+  }, []);
+
+  const allPings = [...SEED_PINGS, ...userPings];
 
   return (
     <section id="impact" className="py-24 bg-[#050505] border-t border-white/5 overflow-hidden">
@@ -61,12 +95,22 @@ export default function ImpactMap() {
               <span className="text-gold gold-text-glow">TOPOGRAPHY</span>
             </h2>
           </div>
-          <p className="text-white/30 text-[10px] uppercase tracking-[0.3em] font-bold max-w-[200px] md:text-right">
-            Real-time oracle<br />verification nodes
-          </p>
+          <div className="flex flex-col gap-2 md:items-end">
+            <p className="text-white/30 text-[10px] uppercase tracking-[0.3em] font-bold">
+              Real-time oracle<br />verification nodes
+            </p>
+            {userPings.length > 0 && (
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                <p className="text-green-400/70 text-[9px] font-black uppercase tracking-widest">
+                  {userPings.length} tree{userPings.length > 1 ? 's' : ''} submitted by you
+                </p>
+              </div>
+            )}
+          </div>
         </motion.div>
 
-        {/* Map container */}
+        {/* Map */}
         <motion.div
           ref={ref}
           initial={{ opacity: 0, scale: 0.97 }}
@@ -78,23 +122,31 @@ export default function ImpactMap() {
           <div className="absolute inset-0 opacity-[0.07]"
             style={{ backgroundImage: 'radial-gradient(#FFD700 0.6px, transparent 0.6px)', backgroundSize: '32px 32px' }}
           />
-
-          {/* Horizontal scan lines */}
+          {/* Scan lines */}
           <div className="absolute inset-0 opacity-[0.03]"
             style={{ backgroundImage: 'repeating-linear-gradient(0deg, #FFD700, #FFD700 1px, transparent 1px, transparent 40px)' }}
           />
-
-          {/* Gold center glow */}
           <div className="absolute inset-0 bg-gradient-radial from-gold/5 via-transparent to-transparent opacity-60" />
 
-          {/* Globe icon */}
           <div className="absolute top-6 left-6 text-white/10">
             <Globe size={40} />
           </div>
 
-          {/* Pings */}
-          {pings.map((p) => (
-            <Ping key={p.name} {...p} />
+          {/* Legend */}
+          <div className="absolute top-6 right-6 flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-gold" />
+              <span className="text-white/30 text-[8px] font-black uppercase tracking-widest">Project</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-green-400" />
+              <span className="text-white/30 text-[8px] font-black uppercase tracking-widest">Your Tree</span>
+            </div>
+          </div>
+
+          {/* All pings */}
+          {allPings.map((p, i) => (
+            <Ping key={p.id} {...p} delay={i * 0.15} />
           ))}
 
           {/* Stats overlay */}
@@ -113,7 +165,7 @@ export default function ImpactMap() {
             </div>
           </div>
 
-          {/* Scan line animation */}
+          {/* Scan line */}
           <motion.div
             className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent"
             animate={{ top: ['10%', '90%', '10%'] }}
