@@ -16,6 +16,8 @@
     "lucide-react": "^0.344.0",
     "clsx": "^2.1.0",
     "tailwind-merge": "^2.2.1",
+    "leaflet": "^1.9.4",
+    "@types/leaflet": "^1.9.8",
     "@solana/web3.js": "^1.91.0",
     "@solana/wallet-adapter-react": "^0.15.35",
     "@solana/wallet-adapter-react-ui": "^0.9.35",
