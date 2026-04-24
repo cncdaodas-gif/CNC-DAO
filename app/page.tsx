@@ -9,6 +9,7 @@ import Link from 'next/link';
 
 const IMG_LEAVES = "https://raw.githubusercontent.com/cncdaodas-gif/CNC-DAO/main/assets/leaves%20at%20sunset.JPG";
 const IMG_PALMS  = "https://raw.githubusercontent.com/cncdaodas-gif/CNC-DAO/main/assets/palm%20trees.JPG";
+const IMG_PALM   = "https://raw.githubusercontent.com/cncdaodas-gif/CNC-DAO/main/assets/palm.jpg";
 
 export default function Home() {
   return (
@@ -18,14 +19,13 @@ export default function Home() {
       <KYC />
       <ImpactMap />
 
-      {/* ── Submit Tree — leaves at sunset subtle behind form ── */}
+      {/* ── Submit Tree — leaves at sunset subtle ── */}
       <div className="relative" style={{ background: 'var(--bg)' }}>
         <div style={{
           position: 'absolute', inset: 0,
           backgroundImage: `url(${IMG_LEAVES})`,
           backgroundSize: 'cover', backgroundPosition: 'center 40%',
-          opacity: 0.06,
-          mixBlendMode: 'luminosity',
+          opacity: 0.06, mixBlendMode: 'luminosity' as any,
         }} />
         <div className="absolute inset-0 pointer-events-none" style={{
           background: 'radial-gradient(ellipse 80% 80% at 50% 50%, transparent 30%, var(--bg) 85%)',
@@ -33,27 +33,27 @@ export default function Home() {
         <TreeSubmissionForm />
       </div>
 
-      {/* ── Ecosystem — leaves at sunset VISIBLE in background ── */}
-      <section id="ecosystem" className="py-24 border-t overflow-hidden relative"
+      {/* ── Ecosystem — palm.jpg VERY visible, right-side bleed ── */}
+      <section id="ecosystem" className="relative overflow-hidden py-24 border-t"
         style={{ background: 'var(--bg)', borderColor: 'var(--border-sm)' }}>
 
-        {/* Leaves image — right side, high opacity, fades left so text stays readable */}
+        {/* Palm image — full right half, high opacity */}
         <div style={{
           position: 'absolute',
-          inset: 0,
-          backgroundImage: `url(${IMG_LEAVES})`,
+          top: 0, right: 0, bottom: 0,
+          width: '55%',
+          backgroundImage: `url(${IMG_PALM})`,
           backgroundSize: 'cover',
-          backgroundPosition: 'center right',
-          opacity: 0.35,
-          mixBlendMode: 'luminosity',
+          backgroundPosition: 'center',
+          opacity: 0.55,
         }} />
-        {/* Gradient mask: text area (left) fully opaque, image bleeds right */}
+        {/* Gradient: left clear for text, fades into image */}
         <div className="absolute inset-0 pointer-events-none" style={{
-          background: 'linear-gradient(to right, var(--bg) 0%, var(--bg) 30%, transparent 65%, transparent 100%)',
+          background: 'linear-gradient(to right, var(--bg) 0%, var(--bg) 38%, rgba(0,0,0,0.3) 60%, transparent 100%)',
         }} />
-        {/* Top/bottom fade */}
+        {/* Top/bottom edge fade */}
         <div className="absolute inset-0 pointer-events-none" style={{
-          background: 'linear-gradient(to bottom, var(--bg) 0%, transparent 12%, transparent 88%, var(--bg) 100%)',
+          background: 'linear-gradient(to bottom, var(--bg) 0%, transparent 10%, transparent 90%, var(--bg) 100%)',
         }} />
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
@@ -62,24 +62,24 @@ export default function Home() {
             THE<br /><span className="text-gold gold-text-glow">ECOSYSTEM</span>
           </h2>
 
-          {/* Cards — left-aligned so image is visible on the right */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-3">
+          {/* Cards on left so image breathes on right */}
+          <div className="grid md:grid-cols-2 gap-3 lg:w-[60%]">
             {[
               { num:'01', title:'Tree Registry',  desc:'Every planted tree anchored permanently on the Solana blockchain with GPS + timestamp.' },
               { num:'02', title:'NFT Identity',   desc:'1 Verified Tree = 1 Digital Identity. Each surviving tree minted as a unique NFT.' },
               { num:'03', title:'Nature Heroes',  desc:'Human-in-the-loop validation. 2 independent validators must approve each submission.' },
               { num:'04', title:'Impact Map',     desc:'Global map of all planting activity, verification status, and project density.' },
-            ].map((item) => (
+            ].map(item => (
               <div key={item.num}
                 className="group rounded-2xl p-7 transition-all hover:border-gold/30"
                 style={{
-                  background: 'rgba(0,0,0,0.55)',
+                  background: 'rgba(0,0,0,0.6)',
                   border: '1px solid var(--border)',
-                  backdropFilter: 'blur(12px)',
-                  WebkitBackdropFilter: 'blur(12px)',
+                  backdropFilter: 'blur(16px)',
+                  WebkitBackdropFilter: 'blur(16px)',
                 }}
               >
-                <div className="font-display text-5xl text-gold/15 group-hover:text-gold/30 transition-colors mb-6">{item.num}</div>
+                <div className="font-display text-5xl text-gold/15 group-hover:text-gold/35 transition-colors mb-6">{item.num}</div>
                 <h3 className="font-black uppercase tracking-tight text-sm mb-3 th-text">{item.title}</h3>
                 <p className="text-xs leading-relaxed th-faint">{item.desc}</p>
               </div>
@@ -88,18 +88,36 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Join the Movement — palm trees blended ── */}
+      {/* ── Join the Movement — leaves at sunset visible + palm trees.JPG ── */}
       <section id="governance" className="py-24 border-t relative overflow-hidden"
         style={{ background: 'var(--bg-deep)', borderColor: 'var(--border-sm)' }}>
+
+        {/* Leaves at sunset — left side visible */}
         <div style={{
-          position: 'absolute', inset: 0,
+          position: 'absolute',
+          top: 0, left: 0, bottom: 0,
+          width: '50%',
+          backgroundImage: `url(${IMG_LEAVES})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          opacity: 0.4,
+        }} />
+        {/* Palm trees right side */}
+        <div style={{
+          position: 'absolute',
+          top: 0, right: 0, bottom: 0,
+          width: '50%',
           backgroundImage: `url(${IMG_PALMS})`,
-          backgroundSize: 'cover', backgroundPosition: 'center 30%',
-          opacity: 0.1,
-          mixBlendMode: 'luminosity',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          opacity: 0.25,
+        }} />
+        {/* Centre vignette so text is readable */}
+        <div className="absolute inset-0 pointer-events-none" style={{
+          background: 'radial-gradient(ellipse 55% 65% at 50% 50%, var(--bg-deep) 30%, transparent 80%)',
         }} />
         <div className="absolute inset-0 pointer-events-none" style={{
-          background: 'radial-gradient(ellipse 60% 70% at 50% 50%, transparent 20%, var(--bg-deep) 80%)',
+          background: 'radial-gradient(ellipse 90% 90% at 50% 50%, transparent 40%, var(--bg-deep) 90%)',
         }} />
         <div className="absolute inset-0 opacity-[0.02] pointer-events-none"
           style={{ backgroundImage: 'radial-gradient(#FFD700 0.5px, transparent 0.5px)', backgroundSize: '28px 28px' }}
