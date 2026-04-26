@@ -6,11 +6,15 @@ import ImpactMap from '@/components/ImpactMap';
 import NFTSection from '@/components/NFTSection';
 import TreeSubmissionForm from '@/components/TreeSubmissionForm';
 import Footer from '@/components/Footer';
+import AnimatedImage from '@/components/AnimatedImage';
+import CyberpunkScene from '@/components/CyberpunkScene';
 import Link from 'next/link';
 
-const IMG_LEAVES = "https://raw.githubusercontent.com/cncdaodas-gif/CNC-DAO/main/assets/leaves%20at%20sunset.JPG";
-const IMG_PALMS  = "https://raw.githubusercontent.com/cncdaodas-gif/CNC-DAO/main/assets/palm%20trees.JPG";
-const IMG_PALM   = "https://raw.githubusercontent.com/cncdaodas-gif/CNC-DAO/main/assets/palm.jpg";
+const IMG_LEAVES   = "https://raw.githubusercontent.com/cncdaodas-gif/CNC-DAO/main/assets/leaves%20at%20sunset.JPG";
+const IMG_PALMS    = "https://raw.githubusercontent.com/cncdaodas-gif/CNC-DAO/main/assets/palm%20trees.JPG";
+const IMG_PALM     = "https://raw.githubusercontent.com/cncdaodas-gif/CNC-DAO/main/assets/palm.jpg";
+const IMG_MIDJ     = "https://raw.githubusercontent.com/cncdaodas-gif/CNC-DAO/main/assets/Midjourney.jpg";
+const IMG_STRAY    = "https://raw.githubusercontent.com/cncdaodas-gif/CNC-DAO/main/assets/Stray%20Game%20Background%20Hd.jpg";
 
 export default function Home() {
   return (
@@ -19,9 +23,20 @@ export default function Home() {
       <Hero />
       <KYC />
       <ImpactMap />
-      <NFTSection />
 
-      {/* ── Submit Tree — leaves at sunset subtle ── */}
+      {/* ── NFT Section — Midjourney image animated behind it ── */}
+      <div className="relative">
+        {/* Midjourney nature art — Ken Burns zoom, very visible */}
+        <AnimatedImage
+          src={IMG_MIDJ}
+          variant="kenburns"
+          opacity={0.32}
+          className="absolute inset-0 w-full h-full"
+        />
+        <NFTSection />
+      </div>
+
+      {/* ── Submit Tree — leaves at sunset + particle network ── */}
       <div className="relative" style={{ background: 'var(--bg)' }}>
         <div style={{
           position: 'absolute', inset: 0,
@@ -35,25 +50,18 @@ export default function Home() {
         <TreeSubmissionForm />
       </div>
 
-      {/* ── Ecosystem — palm.jpg VERY visible, right-side bleed ── */}
+      {/* ── Ecosystem — palm.jpg right side ── */}
       <section id="ecosystem" className="relative overflow-hidden py-24 border-t"
         style={{ background: 'var(--bg)', borderColor: 'var(--border-sm)' }}>
-
-        {/* Palm image — full right half, high opacity */}
         <div style={{
-          position: 'absolute',
-          top: 0, right: 0, bottom: 0,
-          width: '55%',
+          position: 'absolute', top: 0, right: 0, bottom: 0, width: '55%',
           backgroundImage: `url(${IMG_PALM})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          backgroundSize: 'cover', backgroundPosition: 'center',
           opacity: 0.55,
         }} />
-        {/* Gradient: left clear for text, fades into image */}
         <div className="absolute inset-0 pointer-events-none" style={{
           background: 'linear-gradient(to right, var(--bg) 0%, var(--bg) 38%, rgba(0,0,0,0.3) 60%, transparent 100%)',
         }} />
-        {/* Top/bottom edge fade */}
         <div className="absolute inset-0 pointer-events-none" style={{
           background: 'linear-gradient(to bottom, var(--bg) 0%, transparent 10%, transparent 90%, var(--bg) 100%)',
         }} />
@@ -63,8 +71,6 @@ export default function Home() {
           <h2 className="font-display text-5xl md:text-7xl lg:text-8xl leading-none mb-16 th-text">
             THE<br /><span className="text-gold gold-text-glow">ECOSYSTEM</span>
           </h2>
-
-          {/* Cards on left so image breathes on right */}
           <div className="grid md:grid-cols-2 gap-3 lg:w-[60%]">
             {[
               { num:'01', title:'Tree Registry',  desc:'Every planted tree anchored permanently on the Solana blockchain with GPS + timestamp.' },
@@ -79,8 +85,7 @@ export default function Home() {
                   border: '1px solid var(--border)',
                   backdropFilter: 'blur(16px)',
                   WebkitBackdropFilter: 'blur(16px)',
-                }}
-              >
+                }}>
                 <div className="font-display text-5xl text-gold/15 group-hover:text-gold/35 transition-colors mb-6">{item.num}</div>
                 <h3 className="font-black uppercase tracking-tight text-sm mb-3 th-text">{item.title}</h3>
                 <p className="text-xs leading-relaxed th-faint">{item.desc}</p>
@@ -90,42 +95,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Join the Movement — leaves at sunset visible + palm trees.JPG ── */}
-      <section id="governance" className="py-24 border-t relative overflow-hidden"
-        style={{ background: 'var(--bg-deep)', borderColor: 'var(--border-sm)' }}>
+      {/* ── Join the Movement — Stray Game cyberpunk animated background ── */}
+      <section id="governance" className="border-t relative overflow-hidden"
+        style={{ borderColor: 'var(--border-sm)', minHeight: '600px' }}>
 
-        {/* Leaves at sunset — left side visible */}
-        <div style={{
-          position: 'absolute',
-          top: 0, left: 0, bottom: 0,
-          width: '50%',
-          backgroundImage: `url(${IMG_LEAVES})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          opacity: 0.4,
-        }} />
-        {/* Palm trees right side */}
-        <div style={{
-          position: 'absolute',
-          top: 0, right: 0, bottom: 0,
-          width: '50%',
-          backgroundImage: `url(${IMG_PALMS})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          opacity: 0.25,
-        }} />
-        {/* Centre vignette so text is readable */}
-        <div className="absolute inset-0 pointer-events-none" style={{
-          background: 'radial-gradient(ellipse 55% 65% at 50% 50%, var(--bg-deep) 30%, transparent 80%)',
-        }} />
-        <div className="absolute inset-0 pointer-events-none" style={{
-          background: 'radial-gradient(ellipse 90% 90% at 50% 50%, transparent 40%, var(--bg-deep) 90%)',
-        }} />
-        <div className="absolute inset-0 opacity-[0.02] pointer-events-none"
-          style={{ backgroundImage: 'radial-gradient(#FFD700 0.5px, transparent 0.5px)', backgroundSize: '28px 28px' }}
+        {/* CyberpunkScene fills the whole section — rain + glow + scan lines */}
+        <CyberpunkScene
+          src={IMG_STRAY}
+          opacity={0.5}
+          className="absolute inset-0 w-full h-full"
         />
 
-        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+        <div className="relative z-10 py-24 max-w-4xl mx-auto px-6 text-center">
           <div className="text-gold text-[9px] font-black uppercase tracking-[0.35em] mb-6">Join the Movement</div>
           <h2 className="font-display text-6xl md:text-8xl lg:text-9xl leading-none mb-8 th-text">
             PLANT.<br />
@@ -138,8 +119,7 @@ export default function Home() {
           <div className="flex flex-wrap gap-4 justify-center">
             <Link href="/kyc"
               className="group inline-flex items-center gap-3 pl-7 pr-2 py-3 rounded-full text-[10px] font-black uppercase tracking-widest hover:gap-4 transition-all"
-              style={{ background: 'var(--gold)', color: 'var(--on-gold)' }}
-            >
+              style={{ background: 'var(--gold)', color: 'var(--on-gold)' }}>
               Start KYC Verification
               <span className="rounded-full w-10 h-10 flex items-center justify-center group-hover:scale-110 transition-transform"
                 style={{ background: 'var(--on-gold)' }}>
@@ -149,9 +129,8 @@ export default function Home() {
               </span>
             </Link>
             <Link href="/#submit"
-              className="inline-flex items-center gap-2 px-7 py-3 rounded-full text-[10px] font-black uppercase tracking-widest transition-all hover:text-gold"
-              style={{ border: '1px solid var(--border)', color: 'var(--text-dim)' }}
-            >
+              className="inline-flex items-center gap-2 px-7 py-3 rounded-full text-[10px] font-black uppercase tracking-widest transition-all hover:text-gold backdrop-blur-sm"
+              style={{ border: '1px solid rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.7)' }}>
               Submit a Tree
             </Link>
           </div>
