@@ -3,6 +3,7 @@ import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import KYC from '@/components/KYC';
 import ImpactMap from '@/components/ImpactMap';
+import NFTSection from '@/components/NFTSection';
 import TreeSubmissionForm from '@/components/TreeSubmissionForm';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
