@@ -205,9 +205,9 @@ export default function TreeSubmissionForm() {
       {/* ── Interactive particle network — mouse/touch reactive ── */}
       <ParticleNetwork />
 
-      {/* Subtle vignette so particles fade at edges */}
+      {/* Subtle vignette so particles fade at edges — lighter so more particles show */}
       <div className="absolute inset-0 pointer-events-none" style={{
-        background: 'radial-gradient(ellipse 90% 90% at 50% 50%, transparent 50%, var(--bg) 100%)',
+        background: 'radial-gradient(ellipse 100% 100% at 50% 50%, transparent 60%, var(--bg) 100%)',
         zIndex: 2,
       }} />
 
