@@ -266,7 +266,10 @@ export default function TreeSubmissionForm() {
                       </label>
                       {/* Explicit button with icon — more tappable on mobile */}
                       <button onClick={getGPS} disabled={gpsLoading}
-                        className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest text-gold/70 hover:text-gold transition-colors disabled:opacity-50"
+                        className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest transition-colors disabled:opacity-50"
+                        style={{ color: 'var(--gold)' }}
+                        onMouseEnter={e => (e.currentTarget.style.opacity = '0.75')}
+                        onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
                       >
                         {gpsLoading
                           ? <><Loader2 size={10} className="animate-spin" /> Locating…</>
