@@ -18,6 +18,7 @@ export default function Home() {
       <Hero />
       <KYC />
       <ImpactMap />
+      <NFTSection />
 
       {/* ── Submit Tree — leaves at sunset subtle ── */}
       <div className="relative" style={{ background: 'var(--bg)' }}>
