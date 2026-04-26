@@ -46,6 +46,7 @@ export default function Navbar() {
   const NAV = [
     { label: 'Mission',     href: '/#mission' },
     { label: 'Impact',      href: '/impact-map' },
+    { label: 'NFT',         href: '/nft' },
     { label: 'Submit Tree', href: '/#submit' },
     { label: 'KYC',         href: '/kyc' },
     { label: 'Governance',  href: '/#governance' },
