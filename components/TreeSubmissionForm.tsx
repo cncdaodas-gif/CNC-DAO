@@ -229,13 +229,8 @@ export default function TreeSubmissionForm() {
         {/* Card */}
         <motion.div initial={{ opacity:0, y:24 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
           transition={{ duration:0.8, delay:0.1 }}
-          className="rounded-3xl overflow-hidden"
-          style={{
-            border: '1px solid var(--border)',
-            background: 'rgba(13,13,13,0.85)',
-            backdropFilter: 'blur(20px)',
-            WebkitBackdropFilter: 'blur(20px)',
-          }}>
+          className="rounded-3xl overflow-hidden th-card"
+          style={{ border: '1px solid var(--border)' }}>
 
           <AnimatePresence mode="wait">
 
