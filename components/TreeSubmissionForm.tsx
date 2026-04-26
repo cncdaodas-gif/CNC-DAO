@@ -5,6 +5,7 @@ import { useWallet, useConnection } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { Transaction, TransactionInstruction, PublicKey, SystemProgram, LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { TreePine, MapPin, Ruler, Camera, Upload, CheckCircle, Loader2, AlertCircle, X, Crosshair } from "lucide-react";
+import ParticleNetwork from "@/components/ParticleNetwork";
 
 const PINATA_JWT = process.env.NEXT_PUBLIC_PINATA_JWT;
 const MEMO_PROGRAM_ID = new PublicKey("MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr");
@@ -200,11 +201,17 @@ export default function TreeSubmissionForm() {
 
   return (
     <section id="submit" className="py-24 border-t relative overflow-hidden" style={{ background: 'var(--bg)', borderColor: 'var(--border-sm)' }}>
-      <div className="absolute inset-0 opacity-[0.02] pointer-events-none"
-        style={{ backgroundImage: "radial-gradient(#FFD700 0.5px, transparent 0.5px)", backgroundSize: "28px 28px" }}
-      />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
+      {/* ── Interactive particle network — mouse/touch reactive ── */}
+      <ParticleNetwork />
+
+      {/* Subtle vignette so particles fade at edges */}
+      <div className="absolute inset-0 pointer-events-none" style={{
+        background: 'radial-gradient(ellipse 90% 90% at 50% 50%, transparent 50%, var(--bg) 100%)',
+        zIndex: 2,
+      }} />
+
+      <div className="relative max-w-7xl mx-auto px-6 md:px-10" style={{ zIndex: 3 }}>
         {/* Header */}
         <motion.div initial={{ opacity:0, y:24 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
           transition={{ duration:0.8, ease:[0.16,1,0.3,1] }} className="mb-14">
@@ -222,7 +229,13 @@ export default function TreeSubmissionForm() {
         {/* Card */}
         <motion.div initial={{ opacity:0, y:24 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
           transition={{ duration:0.8, delay:0.1 }}
-          className="rounded-3xl overflow-hidden th-card" style={{ border: '1px solid var(--border)' }}>
+          className="rounded-3xl overflow-hidden"
+          style={{
+            border: '1px solid var(--border)',
+            background: 'rgba(13,13,13,0.85)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
+          }}>
 
           <AnimatePresence mode="wait">
 
