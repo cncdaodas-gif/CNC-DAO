@@ -1,9 +1,8 @@
-"use client"
+"use client";
 import Navbar from '@/components/Navbar';
 import Link from 'next/link';
 import { ShieldCheck, Fingerprint, Lock, CheckCircle, ArrowLeft } from 'lucide-react';
 
-export const metadata = { title: 'KYC Verification' };
 
 const steps = [
   { num:'01', title:'Connect Wallet',      icon:ShieldCheck,  desc:'Link your Solana wallet (Phantom, Solflare) to begin the verification process.' },
