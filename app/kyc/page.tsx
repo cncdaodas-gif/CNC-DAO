@@ -1,13 +1,14 @@
-"use client";
 import Navbar from '@/components/Navbar';
 import Link from 'next/link';
 import { ShieldCheck, Fingerprint, Lock, CheckCircle, ArrowLeft } from 'lucide-react';
 
+export const metadata = { title: 'KYC Verification' };
+
 const steps = [
-  { num:'01', title:'Connect Wallet',       icon:ShieldCheck,  desc:'Link your Solana wallet (Phantom, Solflare) to begin the verification process.' },
-  { num:'02', title:'Biometric Scan',       icon:Fingerprint,  desc:'Complete a quick liveness check powered by Worldcoin or zkPass to prove you are a real human.' },
-  { num:'03', title:'ZK-Proof Generated',   icon:Lock,         desc:'A zero-knowledge proof is generated and anchored on-chain — your identity stays private.' },
-  { num:'04', title:'Verified Nature Hero', icon:CheckCircle,  desc:'You are now a verified Nature Hero. Start validating tree submissions and earning CNC tokens.' },
+  { num:'01', title:'Connect Wallet',      icon:ShieldCheck,  desc:'Link your Solana wallet (Phantom, Solflare) to begin the verification process.' },
+  { num:'02', title:'Biometric Scan',      icon:Fingerprint,  desc:'Complete a quick liveness check powered by Worldcoin or zkPass to prove you are a real human.' },
+  { num:'03', title:'ZK-Proof Generated',  icon:Lock,         desc:'A zero-knowledge proof is generated and anchored on-chain — your identity stays private.' },
+  { num:'04', title:'Verified Nature Hero',icon:CheckCircle,  desc:'You are now a verified Nature Hero. Start validating tree submissions and earning CNC tokens.' },
 ];
 
 const benefits = [
@@ -29,9 +30,12 @@ export default function KYCPage() {
         {/* ── Back to Home ── */}
         <Link
           href="/"
-          className="inline-flex items-center gap-2 mb-10 text-[10px] font-black uppercase tracking-widest transition-all group th-ghost hover:text-gold"
+          className="inline-flex items-center gap-2 mb-10 text-[10px] font-black uppercase tracking-widest transition-all group"
+          style={{ color:'var(--text-faint)' }}
+          onMouseEnter={e => (e.currentTarget.style.color = '#FFD700')}
+          onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-faint)')}
         >
-          <span className="w-8 h-8 rounded-full flex items-center justify-center border transition-all group-hover:border-gold/40 th-border"
+          <span className="w-8 h-8 rounded-full flex items-center justify-center border transition-all group-hover:border-gold/40"
             style={{ borderColor:'var(--border)' }}>
             <ArrowLeft size={13} />
           </span>
@@ -58,7 +62,8 @@ export default function KYCPage() {
               className="group relative rounded-2xl p-7 overflow-hidden transition-all hover:border-gold/30"
               style={{ background:'var(--bg-card)', border:'1px solid var(--border)' }}
             >
-              <div className="absolute top-5 right-6 font-display text-5xl" style={{ color:'var(--border)' }}>{step.num}</div>
+              <div className="absolute top-5 right-6 font-display text-5xl transition-colors"
+                style={{ color:'var(--border)' }}>{step.num}</div>
               <div className="w-10 h-10 rounded-xl flex items-center justify-center text-gold mb-5"
                 style={{ background:'var(--gold-dim)', border:'1px solid var(--gold-border)' }}>
                 <step.icon size={18} />
@@ -71,14 +76,19 @@ export default function KYCPage() {
 
         {/* ── CTA + Benefits ── */}
         <div className="grid lg:grid-cols-2 gap-3">
+
+          {/* Gold CTA card */}
           <div className="rounded-2xl p-10 flex flex-col justify-between min-h-[320px]"
             style={{ background:'var(--gold)' }}>
             <div>
-              <div className="text-[9px] font-black uppercase tracking-[0.3em] mb-4" style={{ color:'rgba(0,0,0,0.45)' }}>Get Started</div>
-              <h2 className="font-display text-5xl md:text-6xl leading-none mb-6" style={{ color:'var(--on-gold)' }}>
+              <div className="text-[9px] font-black uppercase tracking-[0.3em] mb-4"
+                style={{ color:'rgba(0,0,0,0.45)' }}>Get Started</div>
+              <h2 className="font-display text-5xl md:text-6xl leading-none mb-6"
+                style={{ color:'var(--on-gold)' }}>
                 BECOME A<br />NATURE HERO.
               </h2>
-              <p className="text-sm leading-relaxed max-w-sm" style={{ color:'rgba(0,0,0,0.55)' }}>
+              <p className="text-sm leading-relaxed max-w-sm"
+                style={{ color:'rgba(0,0,0,0.55)' }}>
                 The entire process takes under 3 minutes. Your identity data never leaves your device.
               </p>
             </div>
@@ -97,7 +107,8 @@ export default function KYCPage() {
             </Link>
           </div>
 
-          <div className="rounded-2xl p-10" style={{ background:'var(--bg-card)', border:'1px solid var(--border)' }}>
+          {/* Benefits card */}
+          <div className="rounded-2xl p-10 th-card" style={{ border:'1px solid var(--border)' }}>
             <div className="text-gold text-[9px] font-black uppercase tracking-[0.3em] mb-6">Nature Hero Benefits</div>
             <ul className="space-y-4">
               {benefits.map(b => (
@@ -115,6 +126,7 @@ export default function KYCPage() {
         </div>
       </section>
 
+      {/* Powered by */}
       <section className="py-10" style={{ borderTop:'1px solid var(--border-sm)' }}>
         <div className="max-w-7xl mx-auto px-6 flex flex-wrap items-center justify-between gap-4">
           <p className="text-[9px] font-black uppercase tracking-[0.3em] th-ghost">Identity powered by</p>
