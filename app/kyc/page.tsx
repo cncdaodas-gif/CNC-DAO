@@ -1,3 +1,4 @@
+"use client"
 import Navbar from '@/components/Navbar';
 import Link from 'next/link';
 import { ShieldCheck, Fingerprint, Lock, CheckCircle, ArrowLeft } from 'lucide-react';
