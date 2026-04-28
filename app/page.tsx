@@ -6,134 +6,147 @@ import ImpactMap from '@/components/ImpactMap';
 import NFTSection from '@/components/NFTSection';
 import TreeSubmissionForm from '@/components/TreeSubmissionForm';
 import Footer from '@/components/Footer';
-import AnimatedImage from '@/components/AnimatedImage';
-import CyberpunkScene from '@/components/CyberpunkScene';
 import Link from 'next/link';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
 
-const IMG_LEAVES   = "https://raw.githubusercontent.com/cncdaodas-gif/CNC-DAO/main/assets/leaves%20at%20sunset.JPG";
-const IMG_PALMS    = "https://raw.githubusercontent.com/cncdaodas-gif/CNC-DAO/main/assets/palm%20trees.JPG";
-const IMG_PALM     = "https://raw.githubusercontent.com/cncdaodas-gif/CNC-DAO/main/assets/palm.jpg";
-const IMG_MIDJ     = "https://raw.githubusercontent.com/cncdaodas-gif/CNC-DAO/main/assets/Midjourney.jpg";
-const IMG_STRAY    = "https://raw.githubusercontent.com/cncdaodas-gif/CNC-DAO/main/assets/Stray%20Game%20Background%20Hd.jpg";
+// All images — raw GitHub URLs
+const IMG_LEAVES = "https://raw.githubusercontent.com/cncdaodas-gif/CNC-DAO/main/assets/leaves%20at%20sunset.JPG";
+const IMG_PALM   = "https://raw.githubusercontent.com/cncdaodas-gif/CNC-DAO/main/assets/palm.jpg";
+const IMG_STRAY  = "https://raw.githubusercontent.com/cncdaodas-gif/CNC-DAO/main/assets/Stray%20Game%20Background%20Hd.jpg";
+
+function StrayBackground() {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const y = useTransform(scrollYProgress, [0,1], ["-10%","10%"]);
+  const scale = useTransform(scrollYProgress, [0,0.5,1], [1.12,1.06,1.12]);
+  return (
+    <div ref={ref} className="absolute inset-0 overflow-hidden pointer-events-none">
+      <motion.img src={IMG_STRAY} alt="" className="absolute inset-0 w-full h-full object-cover"
+        style={{ y, scale, opacity:0.45, mixBlendMode:"luminosity" as any }} />
+      {/* Rain canvas effect via CSS animation */}
+      <div className="absolute inset-0" style={{
+        background:"linear-gradient(to bottom, var(--bg) 0%, transparent 20%, transparent 80%, var(--bg) 100%)",
+      }} />
+      <div className="absolute inset-0" style={{
+        background:"radial-gradient(ellipse 60% 60% at 50% 50%, var(--bg) 10%, transparent 70%)",
+      }} />
+      {/* Animated gold shimmer sweep */}
+      <motion.div className="absolute inset-0"
+        style={{ background:"linear-gradient(105deg, transparent 30%, rgba(255,215,0,0.04) 50%, transparent 70%)" }}
+        animate={{ x:["-100%","100%"] }} transition={{ duration:8, repeat:Infinity, ease:"linear", repeatDelay:4 }} />
+    </div>
+  );
+}
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen" style={{ background: 'var(--bg)' }}>
+    <main className="relative min-h-screen" style={{ background:'var(--bg)' }}>
       <Navbar />
       <Hero />
       <KYC />
       <ImpactMap />
 
-      {/* ── NFT Section — Midjourney image animated behind it ── */}
-      <div className="relative">
-        {/* Midjourney nature art — Ken Burns zoom, very visible */}
-        <AnimatedImage
-          src={IMG_MIDJ}
-          variant="kenburns"
-          opacity={0.32}
-          className="absolute inset-0 w-full h-full"
-        />
-        <NFTSection />
-      </div>
+      {/* NFT section — Midjourney image handled inside NFTSection */}
+      <NFTSection />
 
-      {/* ── Submit Tree — leaves at sunset + particle network ── */}
-      <div className="relative" style={{ background: 'var(--bg)' }}>
-        <div style={{
-          position: 'absolute', inset: 0,
-          backgroundImage: `url(${IMG_LEAVES})`,
-          backgroundSize: 'cover', backgroundPosition: 'center 40%',
-          opacity: 0.06, mixBlendMode: 'luminosity' as any,
-        }} />
-        <div className="absolute inset-0 pointer-events-none" style={{
-          background: 'radial-gradient(ellipse 80% 80% at 50% 50%, transparent 30%, var(--bg) 85%)',
-        }} />
+      {/* Submit Tree — leaves at sunset + particle network */}
+      <div className="relative" style={{ background:'var(--bg)' }}>
+        {/* Leaves at sunset — visible on right side */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <img src={IMG_LEAVES} alt="" className="absolute right-0 top-0 h-full w-[50%] object-cover"
+            style={{ opacity:0.18, mixBlendMode:"luminosity" }} />
+          <div className="absolute inset-0" style={{ background:"linear-gradient(to right, var(--bg) 40%, transparent 75%, var(--bg) 100%)" }} />
+          <div className="absolute inset-0" style={{ background:"linear-gradient(to bottom, var(--bg) 0%, transparent 15%, transparent 85%, var(--bg) 100%)" }} />
+        </div>
         <TreeSubmissionForm />
       </div>
 
-      {/* ── Ecosystem — palm.jpg right side ── */}
-      <section id="ecosystem" className="relative overflow-hidden py-24 border-t"
-        style={{ background: 'var(--bg)', borderColor: 'var(--border-sm)' }}>
-        <div style={{
-          position: 'absolute', top: 0, right: 0, bottom: 0, width: '55%',
-          backgroundImage: `url(${IMG_PALM})`,
-          backgroundSize: 'cover', backgroundPosition: 'center',
-          opacity: 0.55,
-        }} />
-        <div className="absolute inset-0 pointer-events-none" style={{
-          background: 'linear-gradient(to right, var(--bg) 0%, var(--bg) 38%, rgba(0,0,0,0.3) 60%, transparent 100%)',
-        }} />
-        <div className="absolute inset-0 pointer-events-none" style={{
-          background: 'linear-gradient(to bottom, var(--bg) 0%, transparent 10%, transparent 90%, var(--bg) 100%)',
-        }} />
-
+      {/* Ecosystem — palm.jpg right side, very visible */}
+      <section id="ecosystem" className="relative overflow-hidden py-24 border-t" style={{ background:'var(--bg)', borderColor:'var(--border-sm)' }}>
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <img src={IMG_PALM} alt="" className="absolute right-0 top-0 h-full w-[55%] object-cover"
+            style={{ opacity:0.55 }} />
+          <div className="absolute inset-0" style={{ background:"linear-gradient(to right, var(--bg) 0%, var(--bg) 35%, rgba(0,0,0,0.2) 60%, transparent 100%)" }} />
+          <div className="absolute inset-0" style={{ background:"linear-gradient(to bottom, var(--bg) 0%, transparent 10%, transparent 90%, var(--bg) 100%)" }} />
+        </div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
-          <div className="text-gold text-[9px] font-black uppercase tracking-[0.35em] mb-4">Built on Solana</div>
-          <h2 className="font-display text-5xl md:text-7xl lg:text-8xl leading-none mb-16 th-text">
-            THE<br /><span className="text-gold gold-text-glow">ECOSYSTEM</span>
-          </h2>
-          <div className="grid md:grid-cols-2 gap-3 lg:w-[60%]">
+          <div className="overflow-hidden mb-2">
+            <motion.p initial={{ y:"100%" }} whileInView={{ y:0 }} viewport={{ once:true }}
+              transition={{ duration:0.7 }} className="text-gold text-[9px] font-black uppercase tracking-[0.35em]">
+              Built on Solana
+            </motion.p>
+          </div>
+          <div className="overflow-hidden mb-16">
+            <motion.h2 initial={{ y:"100%" }} whileInView={{ y:0 }} viewport={{ once:true }}
+              transition={{ duration:0.9, ease:[0.16,1,0.3,1] }}
+              className="font-display leading-none th-text" style={{ fontSize:"clamp(3rem,9vw,8rem)" }}>
+              THE <span className="text-gold gold-text-glow">ECOSYSTEM</span>
+            </motion.h2>
+          </div>
+          <div className="grid md:grid-cols-2 gap-3 lg:w-[58%]">
             {[
-              { num:'01', title:'Tree Registry',  desc:'Every planted tree anchored permanently on the Solana blockchain with GPS + timestamp.' },
-              { num:'02', title:'NFT Identity',   desc:'1 Verified Tree = 1 Digital Identity. Each surviving tree minted as a unique NFT.' },
-              { num:'03', title:'Nature Heroes',  desc:'Human-in-the-loop validation. 2 independent validators must approve each submission.' },
-              { num:'04', title:'Impact Map',     desc:'Global map of all planting activity, verification status, and project density.' },
-            ].map(item => (
-              <div key={item.num}
+              { num:'01', title:'Tree Registry',  desc:'Every planted tree anchored permanently on Solana with GPS + timestamp.' },
+              { num:'02', title:'NFT Identity',   desc:'1 Verified Tree = 1 Digital Identity. Each tree minted as a unique NFT.' },
+              { num:'03', title:'Nature Heroes',  desc:'2 independent validators must approve each tree submission.' },
+              { num:'04', title:'Impact Map',     desc:'Global map of all planting activity and verification status.' },
+            ].map((item, i) => (
+              <motion.div key={item.num}
+                initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }}
+                viewport={{ once:true }} transition={{ duration:0.6, delay:i*0.1 }}
                 className="group rounded-2xl p-7 transition-all hover:border-gold/30"
-                style={{
-                  background: 'rgba(0,0,0,0.6)',
-                  border: '1px solid var(--border)',
-                  backdropFilter: 'blur(16px)',
-                  WebkitBackdropFilter: 'blur(16px)',
-                }}>
-                <div className="font-display text-5xl text-gold/15 group-hover:text-gold/35 transition-colors mb-6">{item.num}</div>
+                style={{ background:'rgba(0,0,0,0.65)', border:'1px solid var(--border)', backdropFilter:'blur(20px)' }}>
+                <div className="font-display text-5xl text-gold/15 group-hover:text-gold/30 transition-colors mb-6">{item.num}</div>
                 <h3 className="font-black uppercase tracking-tight text-sm mb-3 th-text">{item.title}</h3>
                 <p className="text-xs leading-relaxed th-faint">{item.desc}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── Join the Movement — Stray Game cyberpunk animated background ── */}
-      <section id="governance" className="border-t relative overflow-hidden"
-        style={{ borderColor: 'var(--border-sm)', minHeight: '600px' }}>
-
-        {/* CyberpunkScene fills the whole section — rain + glow + scan lines */}
-        <CyberpunkScene
-          src={IMG_STRAY}
-          opacity={0.5}
-          className="absolute inset-0 w-full h-full"
-        />
-
-        <div className="relative z-10 py-24 max-w-4xl mx-auto px-6 text-center">
-          <div className="text-gold text-[9px] font-black uppercase tracking-[0.35em] mb-6">Join the Movement</div>
-          <h2 className="font-display text-6xl md:text-8xl lg:text-9xl leading-none mb-8 th-text">
-            PLANT.<br />
-            <span className="text-gold gold-text-glow">VERIFY.</span><br />
-            EARN.
-          </h2>
-          <p className="text-sm leading-relaxed max-w-lg mx-auto mb-12 font-semibold th-sec">
-            Become a Nature Hero. Validate tree submissions, earn CNC tokens, and help build a transparent climate-action economy on Solana.
-          </p>
-          <div className="flex flex-wrap gap-4 justify-center">
+      {/* Join the Movement — Stray Game Background with parallax + shimmer */}
+      <section id="governance" className="relative overflow-hidden border-t" style={{ minHeight:'620px', borderColor:'var(--border-sm)' }}>
+        <StrayBackground />
+        <div className="relative z-10 py-28 max-w-4xl mx-auto px-6 text-center">
+          <div className="overflow-hidden mb-2">
+            <motion.p initial={{ y:"100%" }} whileInView={{ y:0 }} viewport={{ once:true }}
+              className="text-gold text-[9px] font-black uppercase tracking-[0.35em]">
+              Join the Movement
+            </motion.p>
+          </div>
+          {["PLANT.", "VERIFY.", "EARN."].map((word, i) => (
+            <div key={word} className="overflow-hidden">
+              <motion.div initial={{ y:"100%" }} whileInView={{ y:0 }} viewport={{ once:true }}
+                transition={{ duration:0.9, delay:i*0.12, ease:[0.16,1,0.3,1] }}
+                className={`font-display leading-none ${i===1?"text-gold gold-text-glow":"th-text"}`}
+                style={{ fontSize:"clamp(4rem,12vw,10rem)" }}>
+                {word}
+              </motion.div>
+            </div>
+          ))}
+          <motion.p initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
+            transition={{ delay:0.6 }}
+            className="text-sm leading-relaxed max-w-lg mx-auto mt-8 mb-12 font-semibold"
+            style={{ color:"rgba(255,255,255,0.75)" }}>
+            Become a Nature Hero. Validate tree submissions, earn CNC tokens, and build a transparent climate-action economy on Solana.
+          </motion.p>
+          <motion.div initial={{ opacity:0, y:16 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
+            transition={{ delay:0.7 }} className="flex flex-wrap gap-4 justify-center">
             <Link href="/kyc"
               className="group inline-flex items-center gap-3 pl-7 pr-2 py-3 rounded-full text-[10px] font-black uppercase tracking-widest hover:gap-4 transition-all"
-              style={{ background: 'var(--gold)', color: 'var(--on-gold)' }}>
+              style={{ background:'var(--gold)', color:'var(--on-gold)' }}>
               Start KYC Verification
-              <span className="rounded-full w-10 h-10 flex items-center justify-center group-hover:scale-110 transition-transform"
-                style={{ background: 'var(--on-gold)' }}>
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                  <path d="M2 7h10M7 2l5 5-5 5" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+              <span className="rounded-full w-10 h-10 flex items-center justify-center group-hover:scale-110 transition-transform" style={{ background:'var(--on-gold)' }}>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </span>
             </Link>
             <Link href="/#submit"
               className="inline-flex items-center gap-2 px-7 py-3 rounded-full text-[10px] font-black uppercase tracking-widest transition-all hover:text-gold backdrop-blur-sm"
-              style={{ border: '1px solid rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.7)' }}>
+              style={{ border:'1px solid rgba(255,255,255,0.2)', color:'rgba(255,255,255,0.7)' }}>
               Submit a Tree
             </Link>
-          </div>
+          </motion.div>
         </div>
       </section>
 
